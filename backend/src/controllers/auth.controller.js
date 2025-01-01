@@ -2,8 +2,9 @@ import bcrypt from "bcryptjs";
 
 import User from "../models/user.model.js";
 import { generateToken } from "../lib/utils.js";
+import cloudinary from "../lib/cloudinary.js";
 
-export const signup = async (req, res) => {
+export const createUser = async (req, res) => {
   const { fullName, email, password } = req.body;
 
   try {
@@ -44,7 +45,41 @@ export const signup = async (req, res) => {
     }
   } catch (error) {
     console.log("Error in signup controller:", error.message);
-    res.status(500).json({ message: "Erro ao cadastrar usuário!" });
+    res.status(500).json({ message: "Erro interno!" });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  try {
+    const { profilePic } = req.body;
+    const userId = req.user._id;
+
+    if (!profilePic) {
+      return res.status(400).json({ message: "Uma imagem de perfil deve ser selecionada!" });
+    }
+
+    const uploadResponse = cloudinary.uploader.upload(profilePic);
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      {
+        profilePic: uploadResponse.secure_url,
+      },
+      { new: true }
+    );
+
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    console.log("Error in updateUser controller:", error.message);
+    res.status(500).json({ message: "Erro interno!" });
+  }
+};
+
+export const getUser = (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (error) {
+    console.log("Error in getUser controller:", error.message);
+    res.status(500).json({ message: "Erro interno!" });
   }
 };
 
@@ -74,7 +109,7 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     console.log("Error in login controller:", error.message);
-    res.status(500).json({ message: "Erro ao fazer login!" });
+    res.status(500).json({ message: "Erro interno!" });
   }
 };
 
@@ -86,6 +121,6 @@ export const logout = (req, res) => {
     res.status(200).json({ message: "Logout realizado com sucesso!" });
   } catch (error) {
     console.log("Error in logout controller:", error.message);
-    res.status(500).json({ message: "Erro ao fazer logout!" });
+    res.status(500).json({ message: "Erro interno!" });
   }
 };
