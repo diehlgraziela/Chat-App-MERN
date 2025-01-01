@@ -4,7 +4,9 @@ import dotenv from "dotenv";
 import { connectDB } from "./lib/db.js";
 import authRoutes from "./routes/auth.route.js";
 
-dotenv.config();
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV || "development"}`,
+});
 const app = express();
 
 const port = process.env.PORT;
@@ -14,6 +16,6 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 app.listen(port, () => {
-  console.log("App running on port", port);
+  console.log("Port:", port, "\nEnvironment:", process.env.NODE_ENV);
   connectDB();
 });
