@@ -1,9 +1,18 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
+import toast from "react-hot-toast";
+
+// TODO - Create folder for interfaces
+interface SignUpData {
+  fullName: string;
+  email: string;
+  password: string;
+}
 
 interface AuthState {
   authUser: {
-    id: string;
+    _id: string;
+    fullName: string;
     email: string;
     profilePic: string;
   } | null;
@@ -13,6 +22,9 @@ interface AuthState {
   isGettingUser: boolean;
 
   getUser: () => Promise<void>;
+  signUp: (userData: SignUpData) => Promise<void>;
+  login: (credentials: { email: string; password: string }) => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -33,6 +45,44 @@ export const useAuthStore = create<AuthState>()((set) => ({
       set({ authUser: null });
     } finally {
       set({ isGettingUser: false });
+    }
+  },
+
+  signUp: async (userData: SignUpData) => {
+    set({ isSigningUp: true });
+    try {
+      const response = await axiosInstance.post("/auth/user", userData);
+      set({ authUser: response.data });
+
+      toast.success("Cadastro realizado com sucesso!");
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isSigningUp: false });
+    }
+  },
+
+  login: async (credentials: { email: string; password: string }) => {
+    set({ isLoggingIn: true });
+    try {
+      const response = await axiosInstance.post("/auth/login", credentials);
+      set({ authUser: response.data });
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isLoggingIn: false });
+    }
+  },
+
+  logout: async () => {
+    try {
+      axiosInstance.post("/auth/logout");
+      set({ authUser: null });
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response.data.message);
     }
   },
 }));
