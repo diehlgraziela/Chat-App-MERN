@@ -44,7 +44,7 @@ export const createUser = async (req, res) => {
       res.status(400).json({ message: "Dados do usuário inválidos!" });
     }
   } catch (error) {
-    console.log("Error in signup controller:", error.message);
+    console.error("Error in signup:", error.message);
     res.status(500).json({ message: "Erro interno!" });
   }
 };
@@ -69,16 +69,16 @@ export const updateUser = async (req, res) => {
 
     res.status(200).json(updatedUser);
   } catch (error) {
-    console.log("Error in updateUser controller:", error.message);
+    console.error("Error in updateUser:", error.message);
     res.status(500).json({ message: "Erro interno!" });
   }
 };
 
-export const getUser = (req, res) => {
+export const getCurrentUser = (req, res) => {
   try {
     res.status(200).json(req.user);
   } catch (error) {
-    console.log("Error in getUser controller:", error.message);
+    console.error("Error in getUser:", error.message);
     res.status(500).json({ message: "Erro interno!" });
   }
 };
@@ -108,7 +108,7 @@ export const login = async (req, res) => {
       profilePic: user.profilePic,
     });
   } catch (error) {
-    console.log("Error in login controller:", error.message);
+    console.error("Error in login:", error.message);
     res.status(500).json({ message: "Erro interno!" });
   }
 };
@@ -120,7 +120,7 @@ export const logout = (req, res) => {
     });
     res.status(200).json({ message: "Logout realizado com sucesso!" });
   } catch (error) {
-    console.log("Error in logout controller:", error.message);
+    console.error("Error in logout:", error.message);
     res.status(500).json({ message: "Erro interno!" });
   }
 };

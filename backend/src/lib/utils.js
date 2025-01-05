@@ -14,3 +14,5 @@ export const generateToken = (userId, res) => {
 
   return token;
 };
+
+// TODO - Create default function to display errors on try catch
