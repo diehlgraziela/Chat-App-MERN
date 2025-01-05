@@ -1,7 +1,23 @@
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage";
+import SignUpPage from "./pages/SignUpPage";
+import LoginPage from "./pages/LoginPage";
+import SettingsPage from "./pages/SettingsPage";
+import ProfilePage from "./pages/ProfilePage";
+
 const App = () => {
   return (
     <div>
-      <h1 className="text-red-500">Chat App</h1>
+      <Navbar></Navbar>
+
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/cadastro" element={<SignUpPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/configuracoes" element={<SettingsPage />} />
+        <Route path="/perfil" element={<ProfilePage />} />
+      </Routes>
     </div>
   );
 };
