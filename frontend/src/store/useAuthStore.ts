@@ -15,7 +15,9 @@ interface AuthState {
     fullName: string;
     email: string;
     profilePic: string;
+    createdAt: string;
   } | null;
+
   isSigningUp: boolean;
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;
@@ -25,6 +27,7 @@ interface AuthState {
   signUp: (userData: SignUpData) => Promise<void>;
   login: (credentials: { email: string; password: string }) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (profilePic: string) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>()((set) => ({
@@ -83,6 +86,21 @@ export const useAuthStore = create<AuthState>()((set) => ({
     } catch (error: any) {
       console.error(error);
       toast.error(error.response.data.message);
+    }
+  },
+
+  updateProfile: async (profilePic: string) => {
+    set({ isUpdatingProfile: true });
+    try {
+      const response = await axiosInstance.put("/auth/user", { profilePic });
+      set({ authUser: response.data });
+
+      toast.success("Perfil atualizado com sucesso!");
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isUpdatingProfile: false });
     }
   },
 }));
