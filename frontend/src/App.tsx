@@ -7,11 +7,12 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
-import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
+import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
   const { authUser, getUser, isGettingUser } = useAuthStore();
+  const { theme } = useThemeStore();
 
   useEffect(() => {
     getUser();
@@ -26,7 +27,7 @@ const App = () => {
   }
 
   return (
-    <>
+    <div data-theme={theme}>
       <Navbar></Navbar>
 
       <main>
@@ -34,7 +35,6 @@ const App = () => {
           <Route path="/" element={authUser ? <HomePage /> : <Navigate to="/login" />} />
           <Route path="/cadastro" element={!authUser ? <SignUpPage /> : <Navigate to="/" />} />
           <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to="/" />} />
-          <Route path="/configuracoes" element={<SettingsPage />} />
           <Route
             path="/minha-conta"
             element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
@@ -43,7 +43,7 @@ const App = () => {
       </main>
 
       <Toaster />
-    </>
+    </div>
   );
 };
 
