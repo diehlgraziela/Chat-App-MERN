@@ -24,7 +24,7 @@ const ProfilePage = () => {
 
   const userInitials = authUser?.fullName
     .split(" ")
-    .map((string) => string.charAt(0))
+    .map((string) => string.charAt(0).toUpperCase())
     .join("");
 
   return (

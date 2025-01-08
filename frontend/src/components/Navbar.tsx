@@ -14,7 +14,9 @@ const Navbar = () => {
 
   return (
     <header className="bg-base-200 w-full p-4 fixed top-0 z-10 flex justify-between">
-      <h1 className="text-xl text-primary font-bold">MyChat</h1>
+      <Link to="/">
+        <h1 className="text-xl text-primary font-bold">MyChat</h1>
+      </Link>
 
       <ul className="flex gap-4">
         <li className="flex items-center cursor-pointer">

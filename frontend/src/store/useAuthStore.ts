@@ -18,6 +18,8 @@ interface AuthState {
     createdAt: string;
   } | null;
 
+  onlineUsers: any[];
+
   isSigningUp: boolean;
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;
@@ -36,6 +38,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
   isLoggingIn: false,
   isUpdatingProfile: false,
   isGettingUser: true,
+  onlineUsers: [],
 
   getUser: async () => {
     set({ isGettingUser: true });
