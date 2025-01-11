@@ -1,8 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuthStore } from "./store/useAuthStore";
-import { useEffect } from "react";
 import { Toaster } from "react-hot-toast";
-import { Loader } from "lucide-react";
 import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
@@ -11,20 +9,8 @@ import ProfilePage from "./pages/ProfilePage";
 import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
-  const { authUser, getUser, isGettingUser } = useAuthStore();
+  const { authUser } = useAuthStore();
   const { theme } = useThemeStore();
-
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
-
-  if (isGettingUser && !authUser) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader className="size-10 animate-spin" />
-      </div>
-    );
-  }
 
   return (
     <div data-theme={theme}>

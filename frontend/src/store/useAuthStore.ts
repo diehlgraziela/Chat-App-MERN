@@ -27,8 +27,10 @@ interface AuthState {
   disconnectSocket: () => void;
 }
 
+const savedAuthUser = localStorage.getItem("authUser");
+
 export const useAuthStore = create<AuthState>()((set, get) => ({
-  authUser: null,
+  authUser: savedAuthUser ? JSON.parse(savedAuthUser) : null,
   isSigningUp: false,
   isLoggingIn: false,
   isUpdatingProfile: false,
@@ -59,6 +61,8 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       const response = await axiosInstance.post("/auth/user", userData);
       set({ authUser: response.data });
 
+      localStorage.setItem("authUser", JSON.stringify(response.data));
+
       get().connectSocket();
 
       toast.success("Cadastro realizado com sucesso!");
@@ -76,6 +80,8 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
       const response = await axiosInstance.post("/auth/login", userData);
       set({ authUser: response.data });
 
+      localStorage.setItem("authUser", JSON.stringify(response.data));
+
       get().connectSocket();
     } catch (error: any) {
       console.error(error);
@@ -91,6 +97,8 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
 
       set({ authUser: null });
 
+      localStorage.removeItem("authUser");
+
       get().disconnectSocket();
     } catch (error: any) {
       console.error(error);
@@ -103,6 +111,8 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     try {
       const response = await axiosInstance.put("/auth/user", { profilePic });
       set({ authUser: response.data });
+
+      localStorage.setItem("authUser", JSON.stringify(response.data));
 
       toast.success("Perfil atualizado com sucesso!");
     } catch (error: any) {
