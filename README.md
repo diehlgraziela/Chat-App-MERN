@@ -1,4 +1,4 @@
-﻿# Chat-App-MERN
+﻿# MERN Chat App
 
 Live chat app created using:
 - React.js
@@ -7,3 +7,7 @@ Live chat app created using:
 - Tailwind
 - DaisyUI
 - Socket.io
+
+# Preview
+![Preview](https://ibb.co/MhJqdSV)
+![Preview](https://ibb.co/QFr46HW)
