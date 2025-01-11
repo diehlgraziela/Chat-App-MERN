@@ -38,25 +38,21 @@ const LoginPage = () => {
   };
 
   return (
-    <section className="min-h-screen grid lg:grid-cols-2 gap-6 sm:gap-12 p-6 sm:p-12">
+    <section className="min-h-screen grid lg:grid-cols-2">
       <article
-        className="bg-no-repeat bg-cover to-black p-6 rounded-md flex justify-end items-end"
+        className="bg-no-repeat bg-cover to-black p-6 flex justify-end items-end"
         style={{ backgroundImage: `url(${sunsetImage})` }}
       >
         <div className="text-end">
-          <h1 className="text-5xl font-semibold text-base-content mb-2">
-            Faça parte da comunidade
-          </h1>
-          <p className="text-base-content/80">
-            Conecte-se, compartilhe e esteja conectado com o mundo!
-          </p>
+          <h1 className="text-5xl font-semibold mb-2 text-white">Faça parte da comunidade</h1>
+          <p className="text-white/80">Conecte-se, compartilhe e esteja conectado com o mundo!</p>
         </div>
       </article>
 
-      <article className="flex flex-col justify-center">
+      <article className="flex flex-col justify-center p-6 sm:p-12">
         <div className="text-start mb-8">
           <h2 className="text-3xl font-bold">Bem-vindo de volta</h2>
-          <p className="text-base-content/80">Acesse sua conta e conecte-se com o mundo!</p>
+          <p>Acesse sua conta e conecte-se com o mundo!</p>
         </div>
 
         <form onSubmit={handleSubmit}>

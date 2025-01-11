@@ -41,9 +41,9 @@ const SignUpPage = () => {
   };
 
   return (
-    <section className="min-h-screen grid lg:grid-cols-2 gap-6 sm:gap-12 p-6 sm:p-12">
+    <section className="min-h-screen grid lg:grid-cols-2">
       <article
-        className="bg-no-repeat bg-cover to-black p-6 rounded-md flex justify-end items-end"
+        className="bg-no-repeat bg-cover to-black p-6 flex justify-end items-end"
         style={{ backgroundImage: `url(${sunsetImage})` }}
       >
         <div className="text-end">
@@ -56,7 +56,7 @@ const SignUpPage = () => {
         </div>
       </article>
 
-      <article className="flex flex-col justify-center">
+      <article className="flex flex-col justify-center p-6 sm:p-12">
         <div className="text-start mb-8">
           <h2 className="text-3xl font-bold">Crie sua conta</h2>
           <p className="text-base-content/80">

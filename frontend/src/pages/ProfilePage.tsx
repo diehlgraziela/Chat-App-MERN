@@ -1,6 +1,6 @@
 import { Camera, Mail, User } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
-import { formatDateTime } from "../utils/utils";
+import { formatDateTime, getUserInitials } from "../utils/utils";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -24,11 +24,6 @@ const ProfilePage = () => {
     };
   };
 
-  const userInitials = authUser?.fullName
-    .split(" ")
-    .map((string) => string.charAt(0).toUpperCase())
-    .join("");
-
   return (
     <section className="h-screen pt-20 px-6 sm:px-12">
       <article className="bg-base-300 rounded-md p-6 text-center max-w-2xl mx-auto">
@@ -44,7 +39,9 @@ const ProfilePage = () => {
                 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full object-cover"
               />
             ) : (
-              <span className="text-4xl text-gray-600">{userInitials}</span>
+              <span className="text-4xl text-gray-600">
+                {getUserInitials(authUser?.fullName || "")}
+              </span>
             )}
 
             <label
