@@ -9,5 +9,5 @@ Live chat app created using:
 - Socket.io
 
 # Preview
-![Preview](https://i.ibb.co/H29mZ4z/preview-2.jpg)
-![Preview](https://i.ibb.co/vxZSJdN/preview-1.jpg)
+[!Preview](https://ibb.co/sJnmG9r)
+[!Preview](https://ibb.co/SJ35GqG)
