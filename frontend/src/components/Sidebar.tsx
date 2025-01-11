@@ -35,6 +35,7 @@ const Sidebar = () => {
               name={user.fullName}
               imageSource={user.profilePic}
               userId={user._id}
+              onlineUsers={onlineUsers}
               showStatus
             />
 

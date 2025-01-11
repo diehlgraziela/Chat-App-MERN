@@ -6,7 +6,7 @@ interface Props {
   size?: number;
   showStatus?: boolean;
   userId?: string;
-  onlineUsers?: any[];
+  onlineUsers?: string[];
 }
 
 const Avatar = ({
@@ -14,7 +14,7 @@ const Avatar = ({
   imageSource,
   size = 12,
   showStatus = false,
-  userId,
+  userId = "",
   onlineUsers,
 }: Props) => {
   return (
