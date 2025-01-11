@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <header className="bg-base-200 w-full p-4 fixed top-0 z-10 flex justify-between">
+    <header className="bg-base-200 w-full p-4 sticky top-0 z-10 flex justify-between">
       <Link to="/">
         <h1 className="text-xl text-primary font-bold">MyChat</h1>
       </Link>
