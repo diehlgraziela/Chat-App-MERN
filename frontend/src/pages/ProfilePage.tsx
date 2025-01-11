@@ -2,6 +2,7 @@ import { Camera, Mail, User } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
 import { formatDateTime } from "../utils/utils";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 const ProfilePage = () => {
   const { authUser, updateProfile, isUpdatingProfile } = useAuthStore();
@@ -10,6 +11,7 @@ const ProfilePage = () => {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+    if (file.size > 61440) return toast.error("A imagem deve ter menos de 60kB!");
 
     const reader = new FileReader();
 
