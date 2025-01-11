@@ -1,10 +1,11 @@
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
+import Avatar from "./Avatar";
 import { useChatStore } from "../store/useChatStore";
 import { useEffect } from "react";
 import MessageSkeleton from "./skeletons/MessageSkeleton";
 import { useAuthStore } from "../store/useAuthStore";
-import { formatHour, getUserInitials } from "../utils/utils";
+import { formatHour } from "../utils/utils";
 
 const ChatContainer = () => {
   const { messages, getMessages, isMessagesLoading, selectedUser } = useChatStore();
@@ -36,29 +37,18 @@ const ChatContainer = () => {
             className={`chat ${message.senderId === authUser?._id ? "chat-end" : "chat-start"}`}
           >
             <div className="chat-image avatar">
-              <div className="relative mx-auto lg:mx-0">
-                {(selectedUser?.profilePic && authUser?.profilePic && (
-                  <img
-                    src={
-                      message.senderId === authUser?._id
-                        ? authUser?.profilePic
-                        : selectedUser?.profilePic
-                    }
-                    alt="Foto de perfil"
-                    className="size-12 object-cover rounded-full"
-                  />
-                )) || (
-                  <div className="size-12 object-cover rounded-full bg-gray-200 grid place-content-center overflow-hidden">
-                    <span className="text-gray-600 text-sm">
-                      {getUserInitials(
-                        message.senderId === authUser?._id
-                          ? authUser?.fullName
-                          : selectedUser?.fullName || ""
-                      )}
-                    </span>
-                  </div>
-                )}
-              </div>
+              <Avatar
+                imageSource={
+                  message.senderId === authUser?._id
+                    ? authUser?.profilePic || ""
+                    : selectedUser?.profilePic || ""
+                }
+                name={
+                  message.senderId === authUser?._id
+                    ? authUser?.fullName
+                    : selectedUser?.fullName || ""
+                }
+              />
             </div>
 
             <div className="chat-header mb-1">

@@ -3,7 +3,7 @@ import { useChatStore } from "../store/useChatStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
-import { getUserInitials } from "../utils/utils";
+import Avatar from "./Avatar";
 
 const Sidebar = () => {
   const { users, getUsers, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
@@ -31,16 +31,12 @@ const Sidebar = () => {
               selectedUser?._id === user._id ? "bg-base-300" : ""
             }`}
           >
-            <div className="relative mx-auto lg:mx-0">
-              {(user.profilePic && (
-                <img src={user.profilePic} alt="" className="size-12 object-cover rounded-full" />
-              )) || (
-                <div className="size-12 object-cover rounded-full bg-gray-200 grid place-content-center overflow-hidden">
-                  <span className="text-gray-600 text-sm">{getUserInitials(user.fullName)}</span>
-                </div>
-              )}
-              {/* if user is online show a green dot */}
-            </div>
+            <Avatar
+              name={user.fullName}
+              imageSource={user.profilePic}
+              userId={user._id}
+              showStatus
+            />
 
             <div className="hidden lg:block text-left min-w-0 flex-1">
               <h3 className="font-medium truncate">{user.fullName}</h3>
