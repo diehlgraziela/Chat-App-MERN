@@ -35,7 +35,7 @@ const Navbar = () => {
           </li>
         )}
         {authUser && (
-          <li className="flex items-center gap-2" onClick={logout}>
+          <li className="flex items-center gap-2 cursor-pointer" onClick={logout}>
             <LogOut className="size-5" />
             <Link to="/login">Sair</Link>
           </li>

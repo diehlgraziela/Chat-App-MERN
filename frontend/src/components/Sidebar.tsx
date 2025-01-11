@@ -3,6 +3,7 @@ import { useChatStore } from "../store/useChatStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
+import { getUserInitials } from "../utils/utils";
 
 const Sidebar = () => {
   const { users, getUsers, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
@@ -11,14 +12,6 @@ const Sidebar = () => {
   useEffect(() => {
     getUsers();
   }, [getUsers]);
-
-  const getUserInitials = (name: string) => {
-    const initials = name
-      .split(" ")
-      .map((word) => word.charAt(0).toUpperCase())
-      .join("");
-    return initials;
-  };
 
   if (isUsersLoading) return <SidebarSkeleton />;
 

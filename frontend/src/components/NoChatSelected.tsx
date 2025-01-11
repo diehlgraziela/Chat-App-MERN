@@ -2,8 +2,11 @@ import { useAuthStore } from "../store/useAuthStore";
 
 const NoChatSelected = () => {
   const { authUser } = useAuthStore();
+  let userFirstName = "";
 
-  const userFirstName = authUser?.fullName.split(" ")[0];
+  if (authUser) {
+    userFirstName = authUser?.fullName.split(" ")[0];
+  }
 
   return (
     <div className="w-full flex flex-1 flex-col justify-center items-center p-16 bg-base-100/50">

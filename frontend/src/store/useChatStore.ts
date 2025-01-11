@@ -11,20 +11,31 @@ interface User {
   profilePic: string;
 }
 
+interface Messages {
+  _id: string;
+  senderId: string;
+  receiverId: string;
+  text?: string | null;
+  image?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
 interface ChatState {
-  messages: any[];
+  messages: Messages[];
   users: User[];
   selectedUser: User | null;
   isMessagesLoading: boolean;
   isUsersLoading: boolean;
   isSendingMessage: boolean;
 
-  setSelectedUser: (selectedUser: User) => void;
+  setSelectedUser: (selectedUser: User | null) => void;
   getUsers: () => Promise<void>;
-  getMessages: (userId: string, receiverId: string, text: string, image: string) => Promise<void>;
+  getMessages: (receiverId: string) => Promise<void>;
+  sendMessage: (text: string, image: string | null) => Promise<void>;
 }
 
-export const useChatStore = create<ChatState>()((set) => ({
+export const useChatStore = create<ChatState>()((set, get) => ({
   messages: [],
   users: [],
   selectedUser: null,
@@ -32,7 +43,7 @@ export const useChatStore = create<ChatState>()((set) => ({
   isUsersLoading: false,
   isSendingMessage: false,
 
-  setSelectedUser: (selectedUser: User) => set({ selectedUser }),
+  setSelectedUser: (selectedUser: User | null) => set({ selectedUser }),
 
   getUsers: async () => {
     set({ isUsersLoading: true });
@@ -47,10 +58,10 @@ export const useChatStore = create<ChatState>()((set) => ({
     }
   },
 
-  getMessages: async (userId: string) => {
+  getMessages: async (receiverId: string) => {
     set({ isMessagesLoading: true });
     try {
-      const response = await axiosInstance.get(`/message/${userId}`);
+      const response = await axiosInstance.get(`/message/${receiverId}`);
       set({ messages: response.data });
     } catch (error: any) {
       console.error(error);
@@ -60,12 +71,14 @@ export const useChatStore = create<ChatState>()((set) => ({
     }
   },
 
-  sendMessage: async (receiverId: string, text: string, image: string) => {
+  sendMessage: async (text: string, image: string | null) => {
+    const { selectedUser, messages } = get();
+
     set({ isSendingMessage: true });
     try {
-      await axiosInstance.post(`/messages/${receiverId}`, { text, image });
+      const response = await axiosInstance.post(`/message/${selectedUser?._id}`, { text, image });
+      set({ messages: [...messages, response.data] });
     } catch (error: any) {
-      console.error(error);
       toast.error(error.response.data.message);
     } finally {
       set({ isSendingMessage: true });
