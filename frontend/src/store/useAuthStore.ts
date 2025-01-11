@@ -1,28 +1,16 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
+import { io, Socket } from "socket.io-client";
 import toast from "react-hot-toast";
-import { io } from "socket.io-client";
+import { IUser, ISignUpData, ILoginData } from "../types/IUser";
 
 const BASE_URL = "http://localhost:3000";
 
-// TODO - Create folder for interfaces
-interface SignUpData {
-  fullName: string;
-  email: string;
-  password: string;
-}
-
 interface AuthState {
-  authUser: {
-    _id: string;
-    fullName: string;
-    email: string;
-    profilePic: string;
-    createdAt: string;
-  } | null;
+  authUser: IUser | null;
   onlineUsers: string[];
 
-  socket: ReturnType<typeof io> | null;
+  socket: Socket;
 
   isSigningUp: boolean;
   isLoggingIn: boolean;
@@ -30,8 +18,8 @@ interface AuthState {
   isGettingUser: boolean;
 
   getUser: () => Promise<void>;
-  signUp: (userData: SignUpData) => Promise<void>;
-  login: (credentials: { email: string; password: string }) => Promise<void>;
+  signUp: (userData: ISignUpData) => Promise<void>;
+  login: (userData: ILoginData) => Promise<void>;
   logout: () => Promise<void>;
   updateProfile: (profilePic: string) => Promise<void>;
 
@@ -47,7 +35,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   isGettingUser: true,
   onlineUsers: [],
 
-  socket: null,
+  socket: io(),
 
   getUser: async () => {
     set({ isGettingUser: true });
@@ -65,7 +53,7 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     }
   },
 
-  signUp: async (userData: SignUpData) => {
+  signUp: async (userData: ISignUpData) => {
     set({ isSigningUp: true });
     try {
       const response = await axiosInstance.post("/auth/user", userData);
@@ -82,10 +70,10 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
     }
   },
 
-  login: async (credentials: { email: string; password: string }) => {
+  login: async (userData: ILoginData) => {
     set({ isLoggingIn: true });
     try {
-      const response = await axiosInstance.post("/auth/login", credentials);
+      const response = await axiosInstance.post("/auth/login", userData);
       set({ authUser: response.data });
 
       get().connectSocket();
