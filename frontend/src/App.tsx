@@ -11,10 +11,8 @@ import ProfilePage from "./pages/ProfilePage";
 import { useThemeStore } from "./store/useThemeStore";
 
 const App = () => {
-  const { authUser, getUser, isGettingUser, onlineUsers } = useAuthStore();
+  const { authUser, getUser, isGettingUser } = useAuthStore();
   const { theme } = useThemeStore();
-
-  console.log(onlineUsers);
 
   useEffect(() => {
     getUser();

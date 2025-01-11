@@ -22,7 +22,7 @@ interface AuthState {
   } | null;
   onlineUsers: string[];
 
-  socket: any;
+  socket: ReturnType<typeof io> | null;
 
   isSigningUp: boolean;
   isLoggingIn: boolean;
@@ -145,6 +145,6 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   },
 
   disconnectSocket: () => {
-    if (get().socket?.connected) get().socket.disconnect();
+    if (get().socket?.connected) get().socket?.disconnect();
   },
 }));

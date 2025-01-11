@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
 import SidebarSkeleton from "./skeletons/SidebarSkeleton";
 import { Users } from "lucide-react";
@@ -9,9 +9,17 @@ const Sidebar = () => {
   const { users, getUsers, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
   const { onlineUsers } = useAuthStore();
 
+  const [isOnline, setIsOnline] = useState(false);
+
   useEffect(() => {
     getUsers();
   }, [getUsers]);
+
+  const filteredUsers = isOnline ? users.filter((user) => onlineUsers.includes(user._id)) : users;
+
+  const toggleOnlineUsers = () => {
+    setIsOnline(!isOnline);
+  };
 
   if (isUsersLoading) return <SidebarSkeleton />;
 
@@ -22,8 +30,15 @@ const Sidebar = () => {
         <span className="font-medium hidden lg:block">Contatos</span>
       </div>
 
+      <div className="form-control px-2 hidden lg:block">
+        <label className="label cursor-pointer">
+          <input onInput={toggleOnlineUsers} type="checkbox" className="toggle toggle-success" />
+          <span className="label-text">Ver usuários online ({onlineUsers.length - 1} online)</span>
+        </label>
+      </div>
+
       <div className="overflow-y-auto w-full py-3">
-        {users.map((user) => (
+        {filteredUsers.map((user) => (
           <button
             key={user._id}
             onClick={() => setSelectedUser(user)}
@@ -47,6 +62,10 @@ const Sidebar = () => {
             </div>
           </button>
         ))}
+
+        {filteredUsers.length === 0 && (
+          <div className="text-center text-zinc-500 py-4">Nenhum usuário online.</div>
+        )}
       </div>
     </aside>
   );
